@@ -1,0 +1,8 @@
+global:
+  scrape_interval: 4s
+
+scrape_configs:
+  - job_name: 'url-shortener'
+    static_configs:
+      - targets: ['${HOST}:${PORT}']
+    metrics_path: '/api/metrics'
