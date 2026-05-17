@@ -3,13 +3,18 @@ import db from "../db";
 import { urlTable } from "../db/schema";
 import { redis } from "../db/redis/redis";
 import { SHORT_CODE_TTL_HOURS } from "../common/constants/redis.constant";
+import { cacheHitCount, cacheMissCount } from "../metrics";
 
 export const fetchUrl = async (shortCode: string) => {
   const cacheKey = `code:${shortCode}`;
 
   // Check Redis
   const cached = await redis.get(cacheKey);
-  if (cached) return cached;
+  if (cached) {
+    cacheHitCount.inc();
+    return cached;
+  }
+  cacheMissCount.inc();
 
   // Check DB
   const result = await db

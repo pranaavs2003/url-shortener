@@ -22,3 +22,17 @@ export const httpRequestDuration = new Histogram({
   labelNames: ["method", "route"],
   registers: [register],
 });
+
+export const cacheHitCount = new Counter({
+  name: "cache_hit_count",
+  help: "Total number of Cache hit",
+  labelNames: ["method", "status", "route"],
+  registers: [register],
+});
+
+export const cacheMissCount = new Counter({
+  name: "cache_miss_count",
+  help: "Total number of Cache miss",
+  labelNames: ["method", "status", "route"],
+  registers: [register],
+});
